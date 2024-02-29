@@ -20,8 +20,9 @@ const Map = ( { setCoordinates, setBounds, coordinates, places } ) => {
     <div style={{ height: '400px' }}>
       <MapContainer 
         center={coordinates} 
-        zoom={13} 
+        zoom={14} 
         className={classes.mapContainer}
+        
         
       >
         {/* Use the TileLayer component to specify the map tiles */}
@@ -37,6 +38,7 @@ const Map = ( { setCoordinates, setBounds, coordinates, places } ) => {
               name={place.name}
               latitude={parseFloat(place.latitude)}
               longitude={parseFloat(place.longitude)}
+              place={place}
             />
           ))
         }

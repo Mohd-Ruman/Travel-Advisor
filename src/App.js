@@ -13,9 +13,14 @@ import Map from "./components/Map/Map";
 const App = () => {
     const [places, setPlaces] = useState([]);
 
-    const [coordinates, setCoordinates] = useState([51.505, -0.09]);
+    const [coordinates, setCoordinates] = useState([12.264778, 109.10869]);
     const [bounds, setBounds] = useState(null);
 
+    useEffect(()=>{
+        navigator.geolocation.getCurrentPosition(({coords : {latitude, longitude} })=>{
+            setCoordinates({lat:latitude, lng: longitude});
+        })
+    }, []); 
 
     useEffect (()=> {
         getPlacesData()
@@ -31,7 +36,7 @@ const App = () => {
             <Header/>
             <Grid container spacing={3} style={{width:'100%'}}>
                 <Grid item xs={12} md={4}>
-                    <List/>
+                    <List places={places}/>
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <Map
@@ -46,5 +51,4 @@ const App = () => {
     );
 }
 
-export default App;
-
+export default App
