@@ -6,29 +6,40 @@ import { LocationOnOutlined } from '@material-ui/icons/LocationOnOutlined';
 import Rating from '@material-ui/lab';
 
 import useStyles from './styles';
+import { latLng } from 'leaflet';
 
-const Map = () => {
+import PlaceComponent from './PlaceComponent';
+
+const Map = ( { setCoordinates, setBounds, coordinates, places } ) => {
 
   const classes = useStyles();
   const isMobile = useMediaQuery('{min-width:600px}');
 
-  const center = [51.505, -0.09]; // Center coordinates
 
   return (
     <div style={{ height: '400px' }}>
-      <MapContainer center={center} zoom={13} className={classes.mapContainer}>
+      <MapContainer 
+        center={coordinates} 
+        zoom={13} 
+        className={classes.mapContainer}
+        
+      >
         {/* Use the TileLayer component to specify the map tiles */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {/* Use the Marker component to add markers to the map */}
-        <Marker position={center}>
-          {/* Use the Popup component to display information when clicking on the marker */}
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {
+          places?.map((place, i) => (
+            <PlaceComponent
+              key={i}
+              name={place.name}
+              latitude={parseFloat(place.latitude)}
+              longitude={parseFloat(place.longitude)}
+            />
+          ))
+        }
       </MapContainer>
     </div>
   );
